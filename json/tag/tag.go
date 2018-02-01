@@ -13,6 +13,7 @@ type Person struct {
 	Age       int       `json:"age,omitempty"`
 	AgeStr    int       `json:"age,omitempty,string"`
 	Merried   bool      `json:"merried,omitempty"`
+	Ms        bool      `json:"ms,omitempty,string"`
 	Relation  *Relation `json:"relation"`
 }
 
@@ -26,6 +27,7 @@ func main() {
 		FirstName: "xiaoming",
 		Nickname:  "",
 		AgeStr:    18,
+		Ms:        true,
 		Relation:  &Relation{},
 	}
 	buf, err := json.MarshalIndent(xiaoming, "", "")
