@@ -48,7 +48,7 @@ func EncodeB(b []byte) string {
 
 再写个测试`main_test.go`
 
-```gola
+```golang
 var buf = []byte("skdjadialsdgasadasdhsakdjsahlskdjagloqweiqwo")
 
 func BenchmarkEncodeA(b *testing.B) {
@@ -77,7 +77,7 @@ func BenchmarkEncodeB(b *testing.B) {
 
 我们直接跑一下。当然我们也是用`go test`来执行测试，简单的测试只要带上`-bench=.`就可以了。
 
-```Bash
+```Shell
 $ go test -bench=.
 goos: darwin
 goarch: amd64
@@ -104,7 +104,7 @@ ok      github.com/razeencheng/demo-go/benchmark        3.397s
 
 - `-bench` 可接收一个有效的正则表达式来执行符合条件的测试函数。当你的函数很多时，可以用它来过滤.
 
-```Bash
+```Shell
 $ go test -bench=BenchmarkEncodeA
 goos: darwin
 goarch: amd64
@@ -116,7 +116,7 @@ ok      github.com/razeencheng/demo-go/benchmark        1.575s
 
 - ` -benchmem`可以查看内存分配
 
-``` bash
+``` Shell
 $ go test -bench=. -benchmem
 goos: darwin
 goarch: amd64
@@ -133,7 +133,7 @@ ok      github.com/razeencheng/demo-go/benchmark        3.408s
 
   当你的运行时间没达到`-benchtime`制定的时间前，`b.N`将以1，2，5，10，20，50…增加，然后重新运行测试代码。
 
-  ```Bash
+  ```Shell
   $ go test -bench=. -benchmem -benchtime=5s
   goos: darwin
   goarch: amd64
@@ -146,7 +146,7 @@ ok      github.com/razeencheng/demo-go/benchmark        3.408s
 
 - `-count`指定每个测试执行的次数。
 
-```shell
+```Shell
 $ go test -bench=. -benchmem -count=3
 goos: darwin
 goarch: amd64
