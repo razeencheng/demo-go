@@ -166,7 +166,7 @@ protoc -I $env:GOPATH\src --go_out=plugins=grpc:$env:GOPATH\src $env:GOPATH\src\
 
 ![](https://st.razeen.me/essay/image/go/grpc-003.png)
 
-![](https://st.razeen.me/essay/image/go/grpc-004.png =600x)
+![](https://st.razeen.me/essay/image/go/grpc-004.png)
 
 而定义的`service`则是生成了对应的`client`与`server`接口，那么这到底有什么用？怎么去用呢？[下一篇博客](https://razeen.me/post/how-to-use-grpc-in-golang-02.html)将为你详细讲解~
 
