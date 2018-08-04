@@ -159,14 +159,15 @@ protoc -I $env:GOPATH\src --go_out=plugins=grpc:$env:GOPATH\src $env:GOPATH\src\
 
 最后生成的`hello-world.pb.go`文件。内容大概如下图所示，点[这里](https://github.com/razeencheng/demo-go/blob/master/grpc/demo1/helloworld/hello_world.pb.go)可查看全部。
 
-![](https://st.razeen.me/essay/image/go/grpc-001.png){:height="100px" width="400px"}
-![](https://st.razeen.me/essay/image/go/grpc-002.png){:height="100px" width="400px"}
+<img src="https://st.razeen.me/essay/image/go/grpc-001.png" width="100px" height="400px">
+
+<img src="https://st.razeen.me/essay/image/go/grpc-002.png" width="100px" height="400px">
 
 图中我们可以看到两个`message`对应生成了两个结构体，同时会生成一些序列化的方法等。
 
-![](https://st.razeen.me/essay/image/go/grpc-003.png){:height="100px" width="400px"}
+<img src="https://st.razeen.me/essay/image/go/grpc-003.png" width="100px" height="400px">
 
-![](https://st.razeen.me/essay/image/go/grpc-004.png){:height="100px" width="400px"}
+<img src="https://st.razeen.me/essay/image/go/grpc-004.png" width="100px" height="400px">
 
 而定义的`service`则是生成了对应的`client`与`server`接口，那么这到底有什么用？怎么去用呢？[下一篇博客](https://razeen.me/post/how-to-use-grpc-in-golang-02.html)将为你详细讲解~
 
