@@ -36,7 +36,7 @@ gRPC使用[protobuf](https://github.com/google/protobuf)来定义服务。protob
 ``` protobuf
 syntax = "proto3";
 
-option go_package = "github.com/razeencheng/demo-go/grpc/helloworld";
+option go_package = "github.com/razeencheng/demo-go/grpc/demo1/helloworld";
 
 package helloworld;
 
@@ -144,9 +144,9 @@ go get -u github.com/golang/protobuf/protoc-gen-go
 
 ```Bash
 ### mac terminal
-protoc -I ${GOPATH}/src --go_out=plugins=grpc:${GOPATH}/src ${GOPATH}/src/github.com/razeencheng/demo-go/grpc/helloworld/hello_world.proto
+protoc -I ${GOPATH}/src --go_out=plugins=grpc:${GOPATH}/src ${GOPATH}/src/github.com/razeencheng/demo-go/grpc/demo1/helloworld/hello_world.proto
 ### win powershell
-protoc -I $env:GOPATH\src --go_out=plugins=grpc:$env:GOPATH\src $env:GOPATH\src\github.com\razeencheng\demo-go\grpc\helloworld\hello_world.proto
+protoc -I $env:GOPATH\src --go_out=plugins=grpc:$env:GOPATH\src $env:GOPATH\src\github.com\razeencheng\demo-go\grpc\demo1\helloworld\hello_world.proto
 ```
 
 如上所示 `-I`指定搜索proto文件的目录,`--go_out=plugins=grpc:`指定生成go代码的文件夹，后面就是需要生成的proto文件路径。
@@ -157,14 +157,14 @@ protoc -I $env:GOPATH\src --go_out=plugins=grpc:$env:GOPATH\src $env:GOPATH\src\
 >
 > `go get -u github.com/golang/protobuf`获取该包，然后在使用时资源路径(`-I`)直接为`GOPATH\src`。
 
-最后生成的`hello-world.pb.go`文件。内容大概如下图所示，点[这里](https://github.com/razeencheng/demo-go/blob/master/grpc/helloworld/hello_world.pb.go)可查看全部。
+最后生成的`hello-world.pb.go`文件。内容大概如下图所示，点[这里](https://github.com/razeencheng/demo-go/blob/master/grpc/demo1/helloworld/hello_world.pb.go)可查看全部。
 
-![](https://st.razeen.me/essay/image/go/grpc-001.png =600x)
-![](https://st.razeen.me/essay/image/go/grpc-002.png =600x)
+![](https://st.razeen.me/essay/image/go/grpc-001.png)
+![](https://st.razeen.me/essay/image/go/grpc-002.png)
 
 图中我们可以看到两个`message`对应生成了两个结构体，同时会生成一些序列化的方法等。
 
-![](https://st.razeen.me/essay/image/go/grpc-003.png =600x)
+![](https://st.razeen.me/essay/image/go/grpc-003.png)
 
 ![](https://st.razeen.me/essay/image/go/grpc-004.png =600x)
 
