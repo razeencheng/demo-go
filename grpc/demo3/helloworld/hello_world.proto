@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option go_package = "github.com/razeencheng/demo-go/grpc/demo3/helloworld";
+
+package helloworld;
+
+import "github.com/golang/protobuf/ptypes/any/any.proto";
+
+message HelloWorldRequest {
+  string greeting = 1;
+  map<string, string> infos  = 2;
+}
+
+message HelloWorldResponse {
+  string reply = 1;
+  repeated google.protobuf.Any details = 2;
+}
+
+service HelloWorldService {
+  rpc SayHelloWorld(HelloWorldRequest) returns (HelloWorldResponse){}
+  rpc ListHello(HelloWorldRequest) returns (stream HelloWorldResponse) {}
+  rpc SayMoreHello(stream HelloWorldRequest) returns (HelloWorldResponse) {}
+  rpc SayHelloChat(stream HelloWorldRequest) returns (stream HelloWorldRequest) {}
+}
+
+message HelloWorld {
+	string msg = 1;
+}
+
+message Error {
+	repeated string msg = 1;
+}
