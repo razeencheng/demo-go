@@ -1,4 +1,4 @@
-## Go学习笔记(三) | 怎么写Go基准测试（性能测试）
+# [Go学习笔记(三) | 怎么写Go基准测试（性能测试）](https://razeen.me/post/go-how-to-write-benchmark.html)
 
 
 
