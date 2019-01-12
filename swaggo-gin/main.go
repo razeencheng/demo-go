@@ -3,11 +3,10 @@ package main
 import (
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
-	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
-
-	_ "github.com/razeencheng/demo-go/swaggo-gin/docs"
 )
+
+// 文档Handle
+var swagHandler gin.HandlerFunc
 
 // @title Swagger Example API
 // @version 1.0
@@ -30,8 +29,6 @@ func main() {
 	store := sessions.NewCookieStore([]byte("secret"))
 	r.Use(sessions.Sessions("mysession", store))
 
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
 	v1 := r.Group("/api/v1")
 	{
 		v1.GET("/hello", HandleHello)
@@ -42,6 +39,10 @@ func main() {
 			v1Auth.GET("/list", HandleList)
 			v1Auth.GET("/file/:id", HandleGetFile)
 		}
+	}
+
+	if swagHandler != nil {
+		r.GET("/swagger/*any", swagHandler)
 	}
 
 	r.Run(":8080")
