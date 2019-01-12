@@ -1,4 +1,4 @@
-# Go学习笔记(五) 使用swaggo自动生成Restful API文档
+# [Go学习笔记(五) 使用swaggo自动生成Restful API文档](https://razeen.me/post/go-swagger.html)
 
 Desc: 使用gin-swagger快捷生成Restful API文档,gin-swagger,swaggo,Restful API文档,gin
 
