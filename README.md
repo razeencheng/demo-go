@@ -54,6 +54,6 @@
 
 6. json tag 使用 👉 [json/tag](https://github.com/razeencheng/demo-go/tree/master/json/tag)
 
-7. [gin文件上传与下载](https://netcj.com/gin-file-download-and-upload/) 👉 [gin/gin.go](https://github.com/razeencheng/demo-go/blob/master/gin/gin.go)
+7. [gin文件上传与下载](https://newb.razeen.me/gin-file-download-and-upload/) 👉 [gin/gin.go](https://github.com/razeencheng/demo-go/blob/master/gin/gin.go)
 
 8. [Go学习笔记(六) 使用swaggo自动生成Restful API文档](https://razeen.me/post/go-swagger.html)
