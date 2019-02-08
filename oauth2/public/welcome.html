@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Hello</title>
+</head>
+
+<body>
+
+</body>
+<script>
+	// 获取access_token
+	const query = window.location.search.substring(1)
+	const token = query.split('access_token=')[1]
+
+	// 访问资源服务器地址，获取相关资源
+	fetch('https://api.github.com/user', {
+			headers: {
+                // 将token放在Header中
+				Authorization: 'token ' + token
+			}
+		})
+		// 解析返回的JSON
+		.then(res => res.json())
+		.then(res => {
+            // 这里我们能得到很多信息
+			// 具体看这里 https://developer.github.com/v3/users/#get-the-authenticated-user
+			// 这里我们就只展示一下用户名了
+			const nameNode = document.createTextNode(`Welcome, ${res.name}`)
+			document.body.appendChild(nameNode)
+		})
+</script>
