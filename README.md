@@ -56,6 +56,8 @@
 
 7. [gin文件上传与下载](https://newb.razeen.me/gin-file-download-and-upload/) 👉 [gin/gin.go](https://github.com/razeencheng/demo-go/blob/master/gin/gin.go)
 
-8. [Go学习笔记(六) 使用swaggo自动生成Restful API文档](https://razeen.me/post/go-swagger.html) 👉 [swaggo-gin]
+8. [Go学习笔记(六) 使用swaggo自动生成Restful API文档](https://razeen.me/post/go-swagger.html) 👉 [swaggo-gin](https://github.com/razeencheng/demo-go/tree/master/swaggo-gin)
 
-9. [Go学习笔记(七) | 理解并实现 OAuth 2.0](https://razeen.me/post/oauth2-protocol-details.html) 👉  [oauth2]
+9. [Go学习笔记(七) | 理解并实现 OAuth 2.0](https://razeen.me/post/oauth2-protocol-details.html) 👉  [oauth2](https://github.com/razeencheng/demo-go/tree/master/oauth2)
+
+10. [如何用Go调用Windows API](https://razeencheng.com/post/breaking-all-the-rules-using-go-to-call-windows-api.html)  👉 [windows_api](https://github.com/razeencheng/demo-go/tree/master/windows_api)
