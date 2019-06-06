@@ -20,7 +20,7 @@
 
 10. [如何用Go调用Windows API](https://razeencheng.com/post/breaking-all-the-rules-using-go-to-call-windows-api.html)  👉 [windows_api](https://github.com/razeencheng/demo-go/tree/master/windows_api)
 
-
+11. [Go学习笔记(八) | 使用 os/exec 执行命令](https://razeencheng.com/post/simple-use-go-exec-command.html) 👉 [os-exec](https://github.com/razeencheng/demo-go/tree/master/os-exec)
 ### 目录
 
 ````
@@ -65,6 +65,12 @@
 │   └── public
 │       ├── index.html
 │       └── welcome.html
+├── os-exec
+│   ├── README.md
+│   ├── main.go
+│   └── testcmd
+│       ├── main.go
+│       └── testcmd
 ├── recover
 │   ├── README.md
 │   └── recover.go
