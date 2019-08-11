@@ -1,0 +1,191 @@
+basePath: /api/v1
+definitions:
+  main.File:
+    properties:
+      id:
+        type: integer
+      len:
+        type: integer
+      name:
+        type: string
+    type: object
+  main.Files:
+    properties:
+      files:
+        items:
+          $ref: '#/definitions/main.File'
+        type: array
+      len:
+        type: integer
+    type: object
+  main.JSONParams:
+    properties:
+      array:
+        description: 这是一个字符串数组
+        items:
+          type: string
+        type: array
+      int:
+        description: 这是一个数字
+        type: integer
+      str:
+        description: 这是一个字符串
+        type: string
+      struct:
+        description: 这是一个结构
+        properties:
+          field:
+            type: string
+        type: object
+    type: object
+host: 127.0.0.1:8080
+info:
+  contact:
+    email: me@razeen.me
+    name: Razeen
+    url: https://razeen.me
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://razeen.me
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /file/{id}:
+    get:
+      consumes:
+      - multipart/form-data
+      description: 获取文件
+      parameters:
+      - description: 文件ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 获取某个文件
+      tags:
+      - 文件处理
+  /hello:
+    get:
+      consumes:
+      - multipart/form-data
+      description: 向你说Hello
+      parameters:
+      - description: 人名
+        in: query
+        name: who
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"msg": "hello Razeen"}'
+          schema:
+            type: string
+        "400":
+          description: '{"msg": "who are you"}'
+          schema:
+            type: string
+      summary: 测试SayHello
+      tags:
+      - 测试
+  /json:
+    post:
+      consumes:
+      - application/json
+      description: 获取JSON的示例
+      parameters:
+      - description: 需要上传的JSON
+        in: body
+        name: param
+        required: true
+        schema:
+          $ref: '#/definitions/main.JSONParams'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回
+          schema:
+            $ref: '#/definitions/main.JSONParams'
+      summary: 获取JSON的示例
+      tags:
+      - JSON
+  /list:
+    get:
+      consumes:
+      - multipart/form-data
+      description: 文件列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Files'
+      summary: 查看文件列表
+      tags:
+      - 文件处理
+  /login:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 登入
+      parameters:
+      - default: admin
+        description: 用户名
+        in: formData
+        name: user
+        required: true
+        type: string
+      - description: 密码
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"msg":"login success"}'
+          schema:
+            type: string
+        "400":
+          description: '{"msg": "user or password error"}'
+          schema:
+            type: string
+      summary: 登陆
+      tags:
+      - 登陆
+  /upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 上传文件
+      parameters:
+      - description: 文件
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.File'
+      summary: 上传文件
+      tags:
+      - 文件处理
+swagger: "2.0"

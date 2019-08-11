@@ -168,3 +168,36 @@ func HandleGetFile(c *gin.Context) {
 
 	c.JSON(http.StatusBadRequest, gin.H{"msg": "no avail file"})
 }
+
+// JSONParams doc
+type JSONParams struct {
+	// 这是一个字符串
+	Str string `json:"str"`
+	// 这是一个数字
+	Int int `json:"int"`
+	// 这是一个字符串数组
+	Array []string `json:"array"`
+	// 这是一个结构
+	Struct struct {
+		Field string `json:"field"`
+	} `json:"struct"`
+}
+
+// HandleJSON doc
+// @Summary 获取JSON的示例
+// @Tags JSON
+// @Description 获取JSON的示例
+// @Accept json
+// @Produce json
+// @Param param body main.JSONParams true "需要上传的JSON"
+// @Success 200 {object} main.JSONParams "返回"
+// @Router /json [post]
+func HandleJSON(c *gin.Context) {
+	param := JSONParams{}
+	if err := c.BindJSON(&param); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, param)
+}

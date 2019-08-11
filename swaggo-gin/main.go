@@ -38,6 +38,7 @@ func main() {
 			v1Auth.POST("/upload", HandleUpload)
 			v1Auth.GET("/list", HandleList)
 			v1Auth.GET("/file/:id", HandleGetFile)
+			v1Auth.POST("/json", HandleJSON)
 		}
 	}
 
