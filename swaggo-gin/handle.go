@@ -30,8 +30,8 @@ func HandleAuth(c *gin.Context) {
 // @Accept mpfd
 // @Produce json
 // @Param who query string true "人名"
-// @Success 200 {string} json "{"msg": "hello Razeen"}"
-// @Failure 400 {string} json "{"msg": "who are you"}"
+// @Success 200 {string} string "{"msg": "hello Razeen"}"
+// @Failure 400 {string} string "{"msg": "who are you"}"
 // @Router /hello [get]
 func HandleHello(c *gin.Context) {
 	who := c.Query("who")
@@ -52,8 +52,8 @@ func HandleHello(c *gin.Context) {
 // @Produce json
 // @Param user formData string true "用户名" default(admin)
 // @Param password formData string true "密码"
-// @Success 200 {string} json "{"msg":"login success"}"
-// @Failure 400 {string} json "{"msg": "user or password error"}"
+// @Success 200 {string} string "{"msg":"login success"}"
+// @Failure 400 {string} string "{"msg": "user or password error"}"
 // @Router /login [post]
 func HandleLogin(c *gin.Context) {
 	user := c.PostForm("user")
@@ -145,7 +145,7 @@ func HandleList(c *gin.Context) {
 // @Accept mpfd
 // @Produce octet-stream
 // @Param id path integer true "文件ID"
-// @Success 200 {string} json ""
+// @Success 200 {string} string ""
 // @Router /file/{id} [get]
 func HandleGetFile(c *gin.Context) {
 	fid, err := strconv.Atoi(c.Param("id"))

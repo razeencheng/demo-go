@@ -110,7 +110,6 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/main.JSONParams'
-          type: object
       produces:
       - application/json
       responses:

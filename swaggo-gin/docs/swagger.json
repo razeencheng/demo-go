@@ -108,7 +108,6 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/main.JSONParams"
                         }
                     }
