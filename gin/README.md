@@ -44,7 +44,7 @@ func HandleUploadFile(c *gin.Context) {
 ``` golang
 // HandleUploadMutiFile 上传多个文件
 func HandleUploadMutiFile(c *gin.Context) {
-	// 设置文件大小
+	// 限制放入内存的文件大小
 	err := c.Request.ParseMultipartForm(4 << 20)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"msg": "文件太大"})
@@ -77,7 +77,9 @@ func HandleUploadMutiFile(c *gin.Context) {
 
 多个文件，遍历文件内容即可读取。
 
-利用`c.Request.ParseMultipartForm()`可设置上传文件的大小，这里限制了4MB。
+~~利用`c.Request.ParseMultipartForm()`可设置上传文件的大小，这里限制了4MB。~~
+ `c.Request.ParseMultipartForm()`并不能限制上传文件的大小，只是限制了上传的文件读取到内存部分的大小，如果超过了就存入了系统的临时文件中。
+如果需要限制文件大小，需要使用`github.com/gin-contrib/size`中间件，如demo中使用`r.Use(limits.RequestSizeLimiter(4 << 20))`限制最大4Mb。
 
 我们看到
 
