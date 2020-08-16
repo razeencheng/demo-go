@@ -24,7 +24,7 @@
 
 12. [Golang中的RESTful API最佳实践](https://razeencheng.com/post/golang-and-restful-api.html) 👉[restful-api](https://github.com/razeencheng/demo-go/tree/master/restful-api)
 
-
+13. [Go学习笔记（九） 计时器的生命周期[译]](https://razeencheng.com/post/go-timers-life-cycle.html) 👉 [timer](https://github.com/razeencheng/demo-go/tree/master/timer)
 
 ### 目录
 
