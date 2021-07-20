@@ -26,6 +26,8 @@
 
 13. [Go学习笔记（九） 计时器的生命周期[译]](https://razeencheng.com/post/go-timers-life-cycle.html) 👉 [timer](https://github.com/razeencheng/demo-go/tree/master/timer)
 
+14. [Go学习笔记（十）老项目迁移 go module 大型灾难记录](https://razeencheng.com/post/accidents-of-migrating-to-go-modules.html)  👉 [gomod](https://github.com/razeencheng/demo-go/tree/master/gomod)
+
 ### 目录
 
 ````
