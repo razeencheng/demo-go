@@ -1,4 +1,4 @@
-# [Go学习笔记（十）老项目迁移 go module 大型灾难记录Go Modules 大型灾难现场实操](https://razeencheng.com/post/accidents-of-migrating-to-go-modules.html)
+# [Go学习笔记（十）老项目迁移 go module 大型灾难记录](https://razeencheng.com/post/accidents-of-migrating-to-go-modules.html)
 
 
 
