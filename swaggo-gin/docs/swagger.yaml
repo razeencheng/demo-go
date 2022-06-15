@@ -44,7 +44,14 @@ info:
     email: me@razeen.me
     name: Razeen
     url: https://razeen.me
-  description: This is a sample server celler server.
+  description: |-
+    # Test Example Makedown
+
+    ### 关于使用说明
+
+    吧啦吧啦吧啦
+
+    ![](https://camo.githubusercontent.com/4752126ebe1c5fe33cd179136fcbcf55e2074c8bacf90c378231256df809d687/68747470733a2f2f62616467652e667572792e696f2f67682f676f2d73776167676572253246676f2d737761676765722e737667)
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -187,4 +194,14 @@ paths:
       summary: 上传文件
       tags:
       - 文件处理
+schemes:
+- http
+- https
 swagger: "2.0"
+tags:
+- externalDocs:
+    description: This is my blog site
+    url: https://razeen.me
+  name: TestTag1
+x-example-key:
+  key: value

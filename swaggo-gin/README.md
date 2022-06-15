@@ -1,14 +1,12 @@
 # [Go学习笔记(五) 使用swaggo自动生成Restful API文档](https://razeen.me/post/go-swagger.html)
 
-Desc: 使用gin-swagger快捷生成Restful API文档,gin-swagger,swaggo,Restful API文档,gin
-
 相信很多程序猿和我一样不喜欢写API文档。写代码多舒服，写文档不仅要花费大量的时间，有时候还不能做到面面具全。但API文档是必不可少的，相信其重要性就不用我说了，一份含糊的文档甚至能让前后端人员打起来。 而今天这篇博客介绍的swaggo就是让你只需要专注于代码就可以生成完美API文档的工具。废话说的有点多，我们直接看文章。
 
-<!--more-->
+<!--more--> 
 
 大概最后文档效果是这样的：
 
-![jietu20190113-003056](https://st.razeen.me/bcj/201901/jietu20190113-003056.png)
+![Screen Shot 2022-06-16 at 07.26.45](https://s.razeen.cn/images/2022/screen-shot-20220616-at-072645.png)
 
 
 
@@ -44,6 +42,20 @@ Desc: 使用gin-swagger快捷生成Restful API文档,gin-swagger,swaggo,Restful 
 
 
 
+> 2022/06/16 更新：
+> 
+>  swag 升级到了 v1.8.2 了, 支持了 markdown 写一些描述了。 swaggerfiles 库有变动。
+> 
+> 2020/05/16 更新：
+>
+> swag 升级到了 v1.6.5，返回数据格式有更新。
+>
+> 最新的请关注[官网文档](https://github.com/swaggo/swag/blob/master/README_zh-CN.md)。
+>
+> 本文最后，优化部分可以了解一下。
+
+
+
 ### 使用
 
 
@@ -52,16 +64,23 @@ Desc: 使用gin-swagger快捷生成Restful API文档,gin-swagger,swaggo,Restful 
 要使用swaggo,首先需要安装`swag cli`。
 
 ``` bash
-$ go get -u github.com/swaggo/swag/cmd/swag
+go get -u github.com/swaggo/swag/cmd/swag
 ```
 
 然后我们还需要两个包。
 
 ```bash
 # gin-swagger 中间件
-$ go get github.com/swaggo/gin-swagger
+go get github.com/swaggo/gin-swagger
 # swagger 内置文件
-$ go get github.com/swaggo/gin-swagger/swaggerFiles
+go get github.com/swaggo/files
+```
+
+可以看一下自己安装的版本
+
+```bash
+swag --version
+swag version v1.18.1
 ```
 
 
@@ -77,6 +96,7 @@ import (
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
+
 // @title Swagger Example API
 // @version 1.0
 // @description This is a sample server celler server.
@@ -86,11 +106,21 @@ import (
 // @contact.url https://razeen.me
 // @contact.email me@razeen.me
 
+// @tag.name TestTag1
+// @tag.description	This is a test tag
+// @tag.docs.url https://razeen.me
+// @tag.docs.description This is my blog site
+
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
 // @host 127.0.0.1:8080
 // @BasePath /api/v1
+
+// @schemes http https
+// @x-example-key {"key": "value"}
+
+// @description.markdown
 
 func main() {
 
@@ -119,7 +149,7 @@ func main() {
 
 ```
 ginSwagger "github.com/swaggo/gin-swagger"
-"github.com/swaggo/gin-swagger/swaggerFiles"
+swaggerfiles "github.com/swaggo/files"
 ```
 
 同时，添加注释。其中：
@@ -130,16 +160,20 @@ ginSwagger "github.com/swaggo/gin-swagger"
 - `license.name` 额，这个是必须的。
 - `host`,`BasePath`: 如果你想直接swagger调试API，这两项需要填写正确。前者为服务文档的端口，ip。后者为基础路径，像我这里就是“/api/v1”。
 - 在原文档中还有`securityDefinitions.basic`,`securityDefinitions.apikey`等，这些都是用来做认证的，我这里暂不展开。
-
+- `description.markdown` 支持用 `markdown` 来写描述了，只不过后面`swag init`的时候要带上 `--markdownFiles example_dir`, 编译时会去找`example_dir/api.md`文件
 
 
 到这里，我们在`mian.go`同目录下执行`swag init`就可以自动生成文档，如下：
 
 ```bash
-➜  swaggo-gin git:(master) ✗ swag init
+$ swag init
 2019/01/12 21:29:14 Generate swagger docs....
 2019/01/12 21:29:14 Generate general API Info
 2019/01/12 21:29:14 create docs.go at  docs/docs.go
+
+
+# 如果加了 makedown 的描述， 要指出 markdown 所在的文件夹, 如
+$ swag init  --markdownFiles .
 ```
 
 然后我们导入这个自动生成的`docs`包，运行：
@@ -150,7 +184,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
+   swaggerfiles "github.com/swaggo/files"
 
 	_ "github.com/razeencheng/demo-go/swaggo-gin/docs"
 )
@@ -161,8 +195,8 @@ import (
 ```
 
 ```bash
-➜  swaggo-gin git:(master) ✗ go build
-➜  swaggo-gin git:(master) ✗ ./swaggo-gin
+$ go build
+$ ./swaggo-gin
 [GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
 
 [GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
@@ -179,7 +213,7 @@ import (
 
 浏览器打开[http://127.0.0.1:8080/swagger/index.html](http://127.0.0.1:8080/swagger/index.html), 我们可以看到如下文档标题已经生成。
 
-![jietu20190112-213823](https://st.razeen.me/bcj/201901/jietu20190112-213823.png)
+![](https://s.razeen.cn/images/2018/jietu20190112-213823.png)
 
 
 
@@ -194,8 +228,8 @@ import (
 // @Accept mpfd
 // @Produce json
 // @Param who query string true "人名"
-// @Success 200 {string} json "{"msg": "hello Razeen"}"
-// @Failure 400 {string} json "{"msg": "who are you"}"
+// @Success 200 {string} string "{"msg": "hello Razeen"}"
+// @Failure 400 {string} string "{"msg": "who are you"}"
 // @Router /hello [get]
 func HandleHello(c *gin.Context) {
 	who := c.Query("who")
@@ -211,17 +245,17 @@ func HandleHello(c *gin.Context) {
 
 我们再次`swag init`, 运行一下。
 
-![jietu20190112-220025](https://st.razeen.me/bcj/201901/jietu20190112-220025.png)
+![](https://s.razeen.cn/images/2018/jietu20190112-220025.png)
 
 此时，该API的相关描述已经生成了，我们点击`Try it out`还可以直接测试该API。
 
-![jietu20190112-220515](https://st.razeen.me/bcj/201901/jietu20190112-220515.png)
+![](https://s.razeen.cn/images/2018/jietu20190112-220515.png)
 
 
 
 是不是很好用，当然这并没有结束，这些注释字段，我们一个个解释。
 
-![jietu20190112-223012](https://st.razeen.me/bcj/201901/jietu20190112-223012.png)
+![](https://s.razeen.cn/images/2018/jietu20190112-223012.png)
 
 这些注释对应出现在API文档的位置，我在上图中已经标出，这里我们主要详细说说下面参数：
 
@@ -233,31 +267,35 @@ Tags 是用来给API分组的。
 
 ##### Accept
 
-接收的参数类型，支持表单(`mpfd`) 和 JSON(`json`)
+接收的参数类型，支持表单(`mpfd`) , JSON(`json`)等，更多如下表。
 
 ##### Produce
 
 返回的数据结构，一般都是`json`, 其他支持如下表：
 
-| Mime Type                         | 声明                  |
-| --------------------------------- | --------------------- |
-| application/json                  | json                  |
-| text/xml                          | xml                   |
-| text/plain                        | plain                 |
-| html                              | html                  |
-| multipart/form-data               | mpfd                  |
-| application/x-www-form-urlencoded | x-www-form-urlencoded |
-| application/vnd.api+json          | json-api              |
-| application/x-json-stream         | json-stream           |
-| application/octet-stream          | octet-stream          |
-| image/png                         | png                   |
-| image/jpeg                        | jpeg                  |
-| image/gif                         | gif                   |
+
+| 声明                | MIME Type                         |
+| --------------------- | --------------------------------- |
+| json                  | application/json                  |
+| xml                   | text/xml                          |
+| plain                 | text/plain                        |
+| html                  | text/html                         |
+| mpfd                  | multipart/form-data               |
+| x-www-form-urlencoded | application/x-www-form-urlencoded |
+| json-api              | application/vnd.api+json          |
+| json-stream           | application/x-json-stream         |
+| octet-stream          | application/octet-stream          |
+| png                   | image/png                         |
+| jpeg                  | image/jpeg                        |
+| gif                   | image/gif                         |
+
 
 ##### Param
 
 参数，从前往后分别是：
 
+> @Param who query string true "人名" 
+>
 > @Param `1.参数名` ` 2.参数类型` ` 3.参数数据类型` ` 4.是否必须` `5.参数描述` `6.其他属性`
 
 - 1.参数名
@@ -266,7 +304,7 @@ Tags 是用来给API分组的。
 
 - 2.参数类型
 
-  参数类型主要有三种：
+  参数类型主要有四种：
 
   - `path` 该类型参数直接拼接在URL中，如[Demo](https://github.com/razeencheng/demo-go/blob/master/swaggo-gin/handle.go)中`HandleGetFile`：
 
@@ -285,6 +323,14 @@ Tags 是用来给API分组的。
     ```
     // @Param user formData string true "用户名" default(admin)
     ```
+    
+  - `body` 当`Accept`是`JSON`格式时，我们使用该字段指定接收的JSON类型
+
+    ```
+    // @Param param body main.JSONParams true "需要上传的JSON"
+    ```
+
+
 
 - 3.参数数据类型
 
@@ -365,10 +411,10 @@ Tags 是用来给API分组的。
 
   - json
 
-  将如你只是返回其他的json数据可如下写：
+  将如你只是返回其他的数据格式可如下写：
 
   ```
-  // @Success 200 {string} json ""
+  // @Success 200 {string} string ""
   ```
 
 - 4.其他描述
@@ -440,7 +486,7 @@ import (
 	_ "github.com/razeencheng/demo-go/swaggo-gin/docs"
 
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
+	swaggerfiles "github.com/swaggo/files"
 )
 
 func init() {

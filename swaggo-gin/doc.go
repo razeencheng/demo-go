@@ -1,3 +1,4 @@
+//go:build doc
 // +build doc
 
 package main
@@ -5,10 +6,10 @@ package main
 import (
 	_ "github.com/razeencheng/demo-go/swaggo-gin/docs"
 
+	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 func init() {
-	swagHandler = ginSwagger.WrapHandler(swaggerFiles.Handler)
+	swagHandler = ginSwagger.WrapHandler(swaggerfiles.Handler)
 }

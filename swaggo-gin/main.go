@@ -17,11 +17,21 @@ var swagHandler gin.HandlerFunc
 // @contact.url https://razeen.me
 // @contact.email me@razeen.me
 
+// @tag.name TestTag1
+// @tag.description	This is a test tag
+// @tag.docs.url https://razeen.me
+// @tag.docs.description This is my blog site
+
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
 // @host 127.0.0.1:8080
 // @BasePath /api/v1
+
+// @schemes http https
+// @x-example-key {"key": "value"}
+
+// @description.markdown
 
 func main() {
 
