@@ -27,7 +27,6 @@ func main() {
 	{
 		v1.POST("/login", HandleLogin)
 		v1.GET("/articles", HandleGetArticles)
-		v1.GET("/articles/:id/comments", HandleGetComments)
 
 		v1Auth := v1.Use(Auth)
 		{
@@ -41,6 +40,8 @@ func main() {
 			v1Auth.DELETE("/articles/:id/comments/:id", HandleDeleteComments)
 		}
 	}
+
+	r.Run(":8080")
 }
 
 const sessionsKey = "user"
