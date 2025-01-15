@@ -24,7 +24,7 @@ func main() {
 	http.Handle("/", fs)
 	http.HandleFunc("/oauth/redirect", HandleOAuthRedirect)
 
-	http.ListenAndServe(":8080", nil)
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 // HandleOAuthRedirect doc
@@ -35,6 +35,7 @@ func HandleOAuthRedirect(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("could not parse query: %v", err)
 		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 	code := r.FormValue("code")
 
@@ -45,7 +46,8 @@ func HandleOAuthRedirect(w http.ResponseWriter, r *http.Request) {
 	req, err := http.NewRequest(http.MethodPost, reqURL, nil)
 	if err != nil {
 		log.Printf("could not create HTTP request: %v", err)
-		w.WriteHeader(http.StatusBadRequest)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	// 设置我们期待返回的格式为json
@@ -56,6 +58,7 @@ func HandleOAuthRedirect(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("could not send HTTP request: %v", err)
 		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	defer res.Body.Close()
 
@@ -63,7 +66,8 @@ func HandleOAuthRedirect(w http.ResponseWriter, r *http.Request) {
 	var t OAuthAccessResponse
 	if err := json.NewDecoder(res.Body).Decode(&t); err != nil {
 		log.Printf("could not parse JSON response: %v", err)
-		w.WriteHeader(http.StatusBadRequest)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	// 最后获取到access_token后，我们重定向到欢迎页面，也就是表示用户登录成功，同属获取一些用户的基本展示信息
