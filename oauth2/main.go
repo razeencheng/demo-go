@@ -19,6 +19,10 @@ type OAuthAccessResponse struct {
 	AccessToken string `json:"access_token"`
 }
 
+type GithubUserInfo struct {
+	Name string `json:"name"`
+}
+
 func main() {
 	fs := http.FileServer(http.Dir("public"))
 	http.Handle("/", fs)
@@ -38,14 +42,32 @@ func HandleOAuthRedirect(w http.ResponseWriter, r *http.Request) {
 	}
 	code := r.FormValue("code")
 
-	// 接下来，我们通过 clientID,clientSecret,code 获取授权密钥
-	// 前者是我们在注册时得到的，后者是用户确认后，重定向到该路由，从中获取到的。
+	// 通过github返回的code码，再向github获取access token，只有使用access token才能获取用户资源
+	accessToken, err := getAccessTokenByCode(code)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// 通过access token获取用户资源，这里的资源为用户的名称
+	username, err := getUsername(accessToken)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// 最后获取到用户信息后，我们重定向到欢迎页面，也就是表示用户登录成功
+	w.Header().Set("Location", "/welcome.html?username="+username)
+	w.WriteHeader(http.StatusFound)
+}
+
+func getAccessTokenByCode(code string) (string, error) {
 	reqURL := fmt.Sprintf("https://github.com/login/oauth/access_token?client_id=%s&client_secret=%s&code=%s",
 		clientID, clientSecret, code)
 	req, err := http.NewRequest(http.MethodPost, reqURL, nil)
 	if err != nil {
 		log.Printf("could not create HTTP request: %v", err)
-		w.WriteHeader(http.StatusBadRequest)
+		return "", err
 	}
 
 	// 设置我们期待返回的格式为json
@@ -55,7 +77,7 @@ func HandleOAuthRedirect(w http.ResponseWriter, r *http.Request) {
 	res, err := httpClient.Do(req)
 	if err != nil {
 		log.Printf("could not send HTTP request: %v", err)
-		w.WriteHeader(http.StatusInternalServerError)
+		return "", err
 	}
 	defer res.Body.Close()
 
@@ -63,10 +85,37 @@ func HandleOAuthRedirect(w http.ResponseWriter, r *http.Request) {
 	var t OAuthAccessResponse
 	if err := json.NewDecoder(res.Body).Decode(&t); err != nil {
 		log.Printf("could not parse JSON response: %v", err)
-		w.WriteHeader(http.StatusBadRequest)
+		return "", err
 	}
 
-	// 最后获取到access_token后，我们重定向到欢迎页面，也就是表示用户登录成功，同属获取一些用户的基本展示信息
-	w.Header().Set("Location", "/welcome.html?access_token="+t.AccessToken)
-	w.WriteHeader(http.StatusFound)
+	return t.AccessToken, nil
+}
+
+func getUsername(accessToken string) (string, error) {
+	req, err := http.NewRequest(http.MethodGet, "https://api.github.com/user", nil)
+	if err != nil {
+		log.Printf("could not create HTTP request: %v", err)
+		return "", err
+	}
+
+	// 设置我们期待返回的格式为json
+	req.Header.Set("accept", "application/json")
+	req.Header.Set("Authorization", "Bearer "+accessToken)
+
+	// 发送http请求
+	res, err := httpClient.Do(req)
+	if err != nil {
+		log.Printf("could not send HTTP request: %v", err)
+		return "", err
+	}
+	defer res.Body.Close()
+
+	// 解析
+	var u GithubUserInfo
+	if err := json.NewDecoder(res.Body).Decode(&u); err != nil {
+		log.Printf("could not parse JSON response: %v", err)
+		return "", err
+	}
+
+	return u.Name, nil
 }
