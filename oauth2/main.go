@@ -3,8 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
+	"os"
 )
 
 // 你在注册时得到的
@@ -69,4 +71,24 @@ func HandleOAuthRedirect(w http.ResponseWriter, r *http.Request) {
 	// 最后获取到access_token后，我们重定向到欢迎页面，也就是表示用户登录成功，同属获取一些用户的基本展示信息
 	w.Header().Set("Location", "/welcome.html?access_token="+t.AccessToken)
 	w.WriteHeader(http.StatusFound)
+}
+
+func init() {
+	tmpl, err := template.ParseFiles("public/index.tmpl")
+	if err != nil {
+		log.Fatalf("parse html templ err: %v", err)
+	}
+
+	file, err := os.OpenFile("public/index.html", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0660)
+	if err != nil {
+		log.Fatalf("create index.html err: %v", err)
+	}
+	defer file.Close()
+
+	err = tmpl.Execute(file, map[string]interface{}{
+		"ClientId": clientID,
+	})
+	if err != nil {
+		log.Fatalf("exec tmpl err: %v", err)
+	}
 }
