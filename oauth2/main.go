@@ -3,8 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
+	"os"
 )
 
 // 你在注册时得到的
@@ -118,4 +120,24 @@ func getUsername(accessToken string) (string, error) {
 	}
 
 	return u.Name, nil
+}
+
+func init() {
+	tmpl, err := template.ParseFiles("public/index.tmpl")
+	if err != nil {
+		log.Fatalf("parse html templ err: %v", err)
+	}
+
+	file, err := os.OpenFile("public/index.html", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0660)
+	if err != nil {
+		log.Fatalf("create index.html err: %v", err)
+	}
+	defer file.Close()
+
+	err = tmpl.Execute(file, map[string]interface{}{
+		"ClientId": clientID,
+	})
+	if err != nil {
+		log.Fatalf("exec tmpl err: %v", err)
+	}
 }
